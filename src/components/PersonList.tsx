@@ -2,8 +2,13 @@ import type { NextPage } from 'next'
 import { HStack, VStack, StackDivider, Text, IconButton, Spacer, Badge } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
 import moment from 'moment'
-const PersonList: NextPage = ({ people, deletePeople }) => {
 
+interface PersonListProps {
+    people: any;
+    deletePeople: (id: number) => void;
+}
+
+const PersonList: NextPage<PersonListProps> = ({ people, deletePeople }) => {
     if (!people.length) {
         return (
             <Badge colorScheme={"orange"} p={"5"} m={"5"} borderRadius={"lg"}>

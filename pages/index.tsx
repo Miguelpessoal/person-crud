@@ -6,24 +6,12 @@ import { FaSun, FaMoon } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 
 const Index: NextPage = () => {
-  const initialPeople = [
-    {
-      id: 1,
-      firstName: 'Miguel Antônio',
-      secondName: 'Souza e Silva',
-      height: 1.87,
-      birthDate: '12/07/2002',
-    },
-    {
-      id: 2,
-      firstName: 'Ícaro Antônio',
-      secondName: 'Souza e Silva',
-      height: 1.77,
-      birthDate: '05/08/2008',
-    }
-  ]
 
-  const [people, setPeople] = useState(initialPeople)
+  const [people, setPeople] = useState(() => JSON.parse(localStorage.getItem('people')) || [])
+
+  useEffect(() => {
+    localStorage.setItem('people', JSON.stringify(people))
+  }, [people])
 
   function deletePeople(id: number) {
     setPeople(people.filter(person => person.id !== id))
@@ -35,7 +23,7 @@ const Index: NextPage = () => {
 
   return (
     <VStack p={6}>
-      <IconButton icon={<FaSun />} isRound={"true"} size={"lg"} alignSelf={"flex-end"} />
+      <IconButton icon={<FaSun />} isRound={true} size={"lg"} alignSelf={"flex-end"} aria-label={''} />
       <Heading
         mb={8}
         bgGradient={"linear(to-r, red.500, orange.400, yellow.600 )"}

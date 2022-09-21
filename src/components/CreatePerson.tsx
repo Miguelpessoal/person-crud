@@ -1,13 +1,11 @@
 import type { NextPage } from 'next'
-import { Input, HStack, Button } from '@chakra-ui/react';
+import { Input, HStack, Button, useToast } from '@chakra-ui/react';
 import { FormEvent, ReactElement, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 interface CreatePersonProps {
     createPeople: (person: object) => void;
 }
-
-
 
 const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactElement => {
 
@@ -18,6 +16,8 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
         birthDate: ''
     })
 
+    const toast = useToast()
+
     function handleEditPersonData(type: string, value: string) {
         setPersonData({
             ...personData,
@@ -26,15 +26,26 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
     }
 
     function handleSubmit(event: FormEvent) {
+        event.preventDefault()
+
         const person = {
             id: nanoid(),
             ...personData
         }
 
-        event.preventDefault()
-
+        if (!person.firstName || !person.secondName || !person.height || !person.birthDate) {
+            console.log('pow')
+            toast({
+                title: 'Campos Vazios',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+            return
+        }
 
         createPeople(person)
+        setPersonData('')
     }
 
     return (
