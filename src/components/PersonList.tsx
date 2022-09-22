@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { HStack, VStack, StackDivider, Text, IconButton, Spacer, Badge } from '@chakra-ui/react'
+import { Badge, TableContainer, Table, TableCaption, Tbody, Td, Th, Thead, Tr, IconButton } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 
@@ -18,28 +18,34 @@ const PersonList: NextPage<PersonListProps> = ({ people, deletePeople }) => {
     }
 
     return (
-        <VStack
+        <TableContainer>
+            <Table variant='simple'>
+                <TableCaption>Imperial to metric conversion factors</TableCaption>
+                <Thead>
+                    <Tr>
+                        <Th>Primeiro Nome</Th>
+                        <Th>Sobrenome</Th>
+                        <Th isNumeric>Altura</Th>
+                        <Th>Data de Nascimento</Th>
+                        <Th>Idade</Th>
+                        <Th>Ações</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {people.map((person: any) => (
+                        <Tr key={person.id}>
+                            <Td>{person.firstName}</Td>
+                            <Td>{person.secondName}</Td>
+                            <Td isNumeric>{person.height / 100}</Td>
+                            <Td>{moment(person.birthDate).format('DD-MM-YYYY')}</Td>
+                            <Td>{moment(person.birthDate, "YYYYMMDD").fromNow()}</Td>
+                            <Td><IconButton icon={<FaTrash />} aria-label={''} isRound={true} onClick={() => deletePeople(person.id)} /></Td>
 
-            divider={<StackDivider />}
-            borderColor="gray.100"
-            borderWidth={3}
-            borderRadius={"lg"}
-            p={5}
-            width={"100%"}
-            maxWidth={{ base: "90vwm", sm: "80vw", lg: "60vw", xl: "40vw" }}
-            alignItems={"stretch"}
-        >
-            {people.map(person => (
-                <HStack key={person.id}>
-                    <Text>{person.firstName}</Text>
-                    <Text>{person.secondName}</Text>
-                    <Text>{person.height}</Text>
-                    <Text>{moment(person.birthDate, "YYYYMMDD").fromNow()}</Text>
-                    <Spacer />
-                    <IconButton icon={<FaTrash />} aria-label={''} isRound={true} onClick={() => deletePeople(person.id)} />
-                </HStack>
-            ))}
-        </VStack>
+                        </Tr>
+                    ))}
+                </Tbody>
+            </Table>
+        </TableContainer>
     )
 
 }

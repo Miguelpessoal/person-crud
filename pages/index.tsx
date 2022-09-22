@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Heading, VStack, IconButton } from '@chakra-ui/react'
+import { Heading, VStack, IconButton, useColorMode } from '@chakra-ui/react'
 import PersonList from '../src/components/PersonList'
 import CreatePerson from '../src/components/CreatePerson'
 import { FaSun, FaMoon } from 'react-icons/fa'
@@ -7,7 +7,9 @@ import { useState, useEffect } from 'react'
 
 const Index: NextPage = () => {
 
-  const [people, setPeople] = useState(() => JSON.parse(localStorage.getItem('people')) || [])
+  const [people, setPeople] = useState(() => [])
+
+  const { colorMode, toggleColorMode } = useColorMode()
 
   useEffect(() => {
     localStorage.setItem('people', JSON.stringify(people))
@@ -23,7 +25,7 @@ const Index: NextPage = () => {
 
   return (
     <VStack p={6}>
-      <IconButton icon={<FaSun />} isRound={true} size={"lg"} alignSelf={"flex-end"} aria-label={''} />
+      <IconButton icon={colorMode === 'light' ? <FaSun /> : <FaMoon />} isRound={true} size={"lg"} alignSelf={"flex-end"} aria-label={''} onClick={toggleColorMode} />
       <Heading
         mb={8}
         bgGradient={"linear(to-r, red.500, orange.400, yellow.600 )"}
