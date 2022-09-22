@@ -77,7 +77,7 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
                     <Box w="100%">
                         <FormLabel htmlFor="nasc">Altura</FormLabel>
                         <Input
-                            value={height}
+                            value={height || ''}
                             onChange={(e) => setHeight(Number(e.target.value))}
                             variant={"filled"}
                             placeholder='Centímetros'
