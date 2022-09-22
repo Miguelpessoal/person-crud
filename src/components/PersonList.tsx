@@ -38,7 +38,7 @@ const PersonList: NextPage<PersonListProps> = ({ people, deletePeople }) => {
                             <Td>{person.secondName}</Td>
                             <Td isNumeric>{person.height / 100}</Td>
                             <Td>{moment(person.birthDate).format('DD-MM-YYYY')}</Td>
-                            <Td>{moment(person.birthDate, "YYYYMMDD").fromNow()}</Td>
+                            <Td>{moment(person.birthDate, "YYYYMMDD").fromNow().replace('years', 'anos').replace('ago', '')}</Td>
                             <Td><IconButton icon={<FaTrash />} aria-label={''} isRound={true} onClick={() => deletePeople(person.id)} /></Td>
 
                         </Tr>
