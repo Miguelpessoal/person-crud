@@ -4,31 +4,24 @@ import PersonList from '../src/components/PersonList'
 import CreatePerson from '../src/components/CreatePerson'
 import { FaSun, FaMoon, FaTrash, FaFileExport } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
+import { Person } from '../src/types/Index'
 
 const Index: NextPage = () => {
 
-  const [people, setPeople] = useState([])
+  const [people, setPeople] = useState<Person[]>([])
 
   const { colorMode, toggleColorMode } = useColorMode()
-
-  useEffect(() => {
-    const data = localStorage.getItem('people')
-
-    if (data !== null) {
-      setPeople(JSON.parse(data))
-    }
-
-  }, [])
 
   useEffect(() => {
     window.localStorage.setItem('people', JSON.stringify(people))
   }, [people])
 
-  function deletePeople(id: number) {
+  function deletePeople(id: string) {
     setPeople(people.filter(person => person.id !== id))
   }
 
-  function createPeople(person: any) {
+  function createPeople(person: Person) {
+    console.log(person)
     setPeople([...people, person])
   }
 
@@ -37,7 +30,10 @@ const Index: NextPage = () => {
   }
 
   function showLocalStorage() {
-    //
+    const something = window.open("data:text/json," + encodeURIComponent(JSON.stringify(people)),
+      "_blank");
+
+    something?.focus();
   }
 
   return (

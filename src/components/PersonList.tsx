@@ -2,10 +2,11 @@ import type { NextPage } from 'next'
 import { Badge, TableContainer, Table, TableCaption, Tbody, Td, Th, Thead, Tr, IconButton } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
 import moment from 'moment'
+import { Person } from '../types/Index';
 
 interface PersonListProps {
-    people: any;
-    deletePeople: (id: number) => void;
+    people: Person[];
+    deletePeople: (id: string) => void;
 }
 
 const PersonList: NextPage<PersonListProps> = ({ people, deletePeople }) => {
@@ -38,7 +39,7 @@ const PersonList: NextPage<PersonListProps> = ({ people, deletePeople }) => {
                             <Td>{person.secondName}</Td>
                             <Td isNumeric>{person.height / 100}</Td>
                             <Td>{moment(person.birthDate).format('DD-MM-YYYY')}</Td>
-                            <Td>{moment(person.birthDate, "YYYYMMDD").fromNow().replace('years', 'anos').replace('ago', '')}</Td>
+                            <Td>{moment(person.birthDate, "YYYYMMDD").fromNow().replace('years', 'anos').replace('days', 'dias').replace('months', 'meses').replace('ago', '')}</Td>
                             <Td><IconButton icon={<FaTrash />} aria-label={''} isRound={true} onClick={() => deletePeople(person.id)} /></Td>
 
                         </Tr>

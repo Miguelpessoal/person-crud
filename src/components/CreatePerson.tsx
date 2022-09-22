@@ -1,36 +1,32 @@
 import type { NextPage } from 'next'
-import { Input, HStack, Button, useToast, StackDivider, Box, FormControl, FormLabel, Radio, RadioGroup } from '@chakra-ui/react';
+import { Input, HStack, Button, useToast, StackDivider, Box, FormControl, FormLabel, Radio, RadioGroup, Heading } from '@chakra-ui/react';
 import { FormEvent, ReactElement, useState } from 'react';
 import { nanoid } from 'nanoid';
+import { Person } from '../types/Index';
 
 interface CreatePersonProps {
-    createPeople: (person: object) => void;
+    createPeople: (person: Person) => void;
 }
 
 const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactElement => {
 
-    const [personData, setPersonData] = useState({
-        firstName: '',
-        secondName: '',
-        height: '',
-        birthDate: ''
-    })
+    const [firstName, setFirstName] = useState('')
+    const [secondName, setSecondName] = useState('')
+    const [height, setHeight] = useState<number>()
+    const [birthDate, setBirthDate] = useState('')
+
 
     const toast = useToast()
-
-    function handleEditPersonData(type: string, value: string) {
-        setPersonData({
-            ...personData,
-            [type]: value
-        })
-    }
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault()
 
         const person = {
             id: nanoid(),
-            ...personData
+            firstName: firstName,
+            secondName: secondName,
+            height: height,
+            birthDate: birthDate,
         }
 
         if (!person.firstName || !person.secondName || !person.height || !person.birthDate) {
@@ -43,8 +39,12 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
             return
         }
 
-        createPeople(person)
-        setPersonData('')
+        createPeople(person as Person)
+
+        setFirstName('')
+        setSecondName('')
+        setHeight(undefined)
+        setBirthDate('')
     }
 
     return (
@@ -54,7 +54,8 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
                     <Box w="100%">
                         <FormLabel htmlFor="nome">Primeiro Nome</FormLabel>
                         <Input
-                            onChange={(params) => handleEditPersonData('firstName', params.target.value)}
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                             variant={"filled"}
                             placeholder='Primeiro Nome'
                             name='firstName'
@@ -63,7 +64,8 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
                     <Box w="100%">
                         <FormLabel htmlFor="email">Segundo Nome</FormLabel>
                         <Input
-                            onChange={(params) => handleEditPersonData('secondName', params.target.value)}
+                            value={secondName}
+                            onChange={(e) => setSecondName(e.target.value)}
                             variant={"filled"}
                             placeholder='Segundo Nome'
                             name='secondName'
@@ -75,7 +77,8 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
                     <Box w="100%">
                         <FormLabel htmlFor="nasc">Altura</FormLabel>
                         <Input
-                            onChange={(params) => handleEditPersonData('height', params.target.value)}
+                            value={height}
+                            onChange={(e) => setHeight(Number(e.target.value))}
                             variant={"filled"}
                             placeholder='Centímetros'
                             name='height'
@@ -85,7 +88,8 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
                     <Box w="100%">
                         <FormLabel htmlFor="natural">Data de Nascimento</FormLabel>
                         <Input
-                            onChange={(params) => handleEditPersonData('birthDate', params.target.value)}
+                            value={birthDate}
+                            onChange={(e) => setBirthDate(e.target.value)}
                             variant={"filled"}
                             placeholder="Data de Nascimento"
                             name='birthDate'
@@ -103,6 +107,5 @@ const CreatePerson: NextPage<CreatePersonProps> = ({ createPeople }): ReactEleme
 
     )
 }
-
 
 export default CreatePerson
