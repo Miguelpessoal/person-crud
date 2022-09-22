@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Input, HStack, Button, useToast, StackDivider, Box, FormControl, FormLabel, Radio, RadioGroup, Heading } from '@chakra-ui/react';
+import { Input, HStack, Button, useToast, Box, FormControl, FormLabel } from '@chakra-ui/react';
 import { FormEvent, ReactElement, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Person } from '../types/Index';
