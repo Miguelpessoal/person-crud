@@ -21,7 +21,6 @@ const Index: NextPage = () => {
   }
 
   function createPeople(person: Person) {
-    console.log(person)
     setPeople([...people, person])
   }
 
