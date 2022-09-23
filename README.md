@@ -10,7 +10,7 @@ yarn install
 yarn 
 ```
 
-First, run the development server:
+After, run the development server:
 
 ```bash
 npm run dev
